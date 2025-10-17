@@ -10,7 +10,7 @@ on:
     # Ajusta la hora según necesites (invierno/verano).
     # "minuto hora * * dia_de_semana"
     # Ejecuta a las 09:02 UTC los Martes(2), Miércoles(3), Sábados(6) y Domingos(0).
-    - cron: '02 09 * * 0,2,3,6'
+    - cron: '01 09 * * 0,2,3,6'
 
 jobs:
   build:
