@@ -8,5 +8,4 @@ venv/
 __pycache__/
 *.pyc
 
-# ¡MUY IMPORTANTE! Ignorar el archivo de configuración con tus credenciales
 config.py
