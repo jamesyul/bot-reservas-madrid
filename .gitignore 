@@ -1,11 +1,3 @@
-# .gitignore
-
-# Ignorar archivos de entorno virtual de Python
-venv/
-*.venv/
-
-# Ignorar cachés de Python
 __pycache__/
 *.pyc
-
 config.py
