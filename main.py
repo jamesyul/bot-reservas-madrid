@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 
 # --- CONFIGURACIÓN ---
 # Intentamos cargar desde un archivo config.py local (para pruebas)
@@ -50,7 +51,12 @@ dia_objetivo_numero = str(fecha_objetivo.day)
 print(f"✅ Bot iniciado. Hoy es {datetime.now().strftime('%A')}. Intentando reservar para el día {dia_objetivo_numero}.")
 
 # --- EJECUCIÓN DEL BOT ---
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--disable-gpu")
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 wait = WebDriverWait(driver, 15) # Aumentamos la espera a 15 segundos por si la web es lenta
 
 try:
