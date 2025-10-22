@@ -19,6 +19,9 @@ jobs:
     steps:
       - name: Checkout del repositorio
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          clean: true
 
       - name: Configurar Python 3.9
         uses: actions/setup-python@v4
