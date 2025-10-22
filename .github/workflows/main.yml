@@ -1,15 +1,8 @@
 name: Bot de Reservas de Madrid
 
 on:
-  # Permite ejecutarlo manualmente desde la pestaña Actions de GitHub
   workflow_dispatch:
-  
-  # Programador (Cron Job)
   schedule:
-    # IMPORTANTE: GitHub Actions usa la hora UTC.
-    # Ajusta la hora según necesites (invierno/verano).
-    # "minuto hora * * dia_de_semana"
-    # Ejecuta a las 09:02 UTC los Martes(2), Miércoles(3), Sábados(6) y Domingos(0).
     - cron: '01 09 * * 0,2,3,6'
 
 jobs:
@@ -19,24 +12,31 @@ jobs:
     steps:
       - name: Checkout del repositorio
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          clean: true
 
       - name: Configurar Python 3.9
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      - name: Listar archivos del repositorio  
+      - name: Debug - Ver archivos después de checkout
         run: |
           pwd
+          echo "=== Listado completo ==="
           ls -la
+          echo "=== Buscando requirements.txt ==="
+          find . -name "requirements.txt" -type f
+          echo "=== Contenido de requirements.txt ==="
+          cat requirements.txt || echo "No se pudo leer requirements.txt"
 
       - name: Instalar dependencias
         run: |
+          pwd
+          ls -la
+          echo "=== Contenido de requirements.txt antes de instalar ==="
+          cat requirements.txt
+          echo "=== Instalando ==="
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python -m pip install -r requirements.txt
           
       - name: Ejecutar el script del bot
         env:
