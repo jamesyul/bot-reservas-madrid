@@ -20,10 +20,13 @@ jobs:
       - name: Checkout del repositorio
         uses: actions/checkout@v3
 
-      - name: Listar archivos del repositorio  # <-- AGREGA ESTO
+      - name: Listar archivos del repositorio  
         run: |
           pwd
           ls -la
+          echo "---"
+          echo "Contenido completo:"
+          find . -type f
 
       - name: Configurar Python 3.9
         uses: actions/setup-python@v4
