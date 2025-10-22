@@ -23,7 +23,7 @@ URL_LOGIN = "https://deportesweb.madrid.es/DeportesWeb/login"
 URL_HOME = "https://deportesweb.madrid.es/DeportesWeb/Home"
 TARGET_CENTER = "Faustina Valladolid"
 TARGET_ACTIVITY = "Sala multitrabajo"
-TARGET_TIME_SLOT = "12:00" # La hora de inicio que buscas
+TARGET_TIME_SLOT = "15:00" # La hora de inicio que buscas
 
 # --- LÓGICA DE FECHAS ---
 # Días que queremos reservar: Lunes (0), Martes (1), Jueves (3), Viernes (4)
