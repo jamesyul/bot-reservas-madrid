@@ -140,17 +140,22 @@ try:
     wait.until(EC.presence_of_element_located((By.XPATH, "//h2[contains(text(), 'Reserva de clases abiertas')]")))
     print("Página del centro cargada.")
     
-    # 7. SELECCIONAR "SALA MULTITRABAJO" (AHORA DE FORMA SEGURA)
+    # 7. SELECCIONAR "SALA MULTITRABAJO" (VERSIÓN ANTI-STALE)
     print(f"Buscando la actividad: {TARGET_ACTIVITY}")
-    # PASO 1: Localizamos el elemento en la página YA CARGADA
-    actividad_elem = wait.until(EC.presence_of_element_located((By.XPATH, f"//article[contains(., '{TARGET_ACTIVITY}')]")))
-    # PASO 2: Hacemos scroll hasta que el elemento sea visible
-    driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", actividad_elem)
+
+    # PASO 1: Guardamos la "dirección" (XPath) del elemento, no el elemento en sí.
+    xpath_actividad = f"//article[contains(., '{TARGET_ACTIVITY}')]"
+
+    # PASO 2: Localizamos el elemento la primera vez, SOLO para poder hacer scroll hacia él.
+    elemento_para_scroll = wait.until(EC.presence_of_element_located((By.XPATH, xpath_actividad)))
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", elemento_para_scroll)
     print("Haciendo scroll hasta la actividad...")
-    # Damos un respiro mínimo para que el scroll termine
-    time.sleep(0.5) 
-    # PASO 3: Ahora que es visible, esperamos a que sea clickeable y hacemos clic
-    wait.until(EC.element_to_be_clickable(actividad_elem)).click()
+    time.sleep(0.5) # Pequeña pausa para que el DOM se estabilice tras el scroll.
+
+    # PASO 3 (LA CLAVE): Volvemos a buscar el elemento desde cero usando su "dirección"
+    # y hacemos clic en la referencia "fresca". Esto evita el error "stale".
+    print("Haciendo clic en la actividad ahora que es visible...")
+    wait.until(EC.element_to_be_clickable((By.XPATH, xpath_actividad))).click()
     print("Actividad seleccionada.")
     
     # 8. SELECCIONAR DÍA EN EL CALENDARIO
