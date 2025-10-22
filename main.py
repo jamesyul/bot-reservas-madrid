@@ -51,8 +51,10 @@ dia_objetivo_numero = str(fecha_objetivo.day)
 print(f"✅ Bot iniciado. Hoy es {datetime.now().strftime('%A')}. Intentando reservar para el día {dia_objetivo_numero}.")
 
 # --- EJECUCIÓN DEL BOT ---
+# --- CONFIGURACIÓN DE CHROME PARA GITHUB ACTIONS (HEADLESS) ---
 options = Options()
 options.add_argument("--headless")
+options.add_argument("--window-size=1920,1080") # <-- AÑADE ESTA LÍNEA
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--disable-gpu")
@@ -116,8 +118,15 @@ try:
     # 5. IR A LA PÁGINA PRINCIPAL PARA EMPEZAR LA RESERVA
     # Una vez logueados, nos aseguramos de estar en la home para seguir los pasos.
     driver.get(URL_HOME)
+    print("Navegando a la página principal post-login...")
 
-# 6. SELECCIONAR CENTRO DEPORTIVO
+    # --- NUEVO PASO DE ESPERA INTELIGENTE ---
+    # Esperamos a que un elemento clave de la home (el título de noticias) sea visible.
+    # Esto asegura que la página está completamente cargada antes de buscar el centro.
+    wait.until(EC.presence_of_element_located((By.XPATH, "//h2[contains(text(), 'Noticias y eventos deportivos')]")))
+    print("Página principal cargada y lista.")
+
+    # 6. SELECCIONAR CENTRO DEPORTIVO
     print(f"Buscando el centro: {TARGET_CENTER}")
     centro_elem = wait.until(EC.element_to_be_clickable((By.XPATH, f"//article[contains(., '{TARGET_CENTER}')]")))
     centro_elem.click()
