@@ -20,29 +20,21 @@ jobs:
       - name: Checkout del repositorio
         uses: actions/checkout@v3
 
-      - name: Listar archivos del repositorio  
-        run: |
-          pwd
-          ls -la
-          echo "---"
-          echo "Contenido completo:"
-          find . -type f
-
       - name: Configurar Python 3.9
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
+          cache: 'pip'  # <-- AGREGA ESTA LÍNEA
+          cache-dependency-path: 'requirements.txt'
+
+      - name: Listar archivos del repositorio  
+        run: |
+          pwd
+          ls -la
 
       - name: Instalar dependencias
         run: |
-          python --version
-          pip --version
-          cat requirements.txt
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Instalar dependencias
-        run: |
           pip install -r requirements.txt
           
       - name: Ejecutar el script del bot
