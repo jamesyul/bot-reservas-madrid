@@ -3,7 +3,7 @@ name: Bot de Reservas de Madrid
 on:
   workflow_dispatch:
   schedule:
-    - cron: '01 09 * * 0,2,3,6'
+    - cron: '01 10 * * 0,2,3,6' 
 
 jobs:
   build:
